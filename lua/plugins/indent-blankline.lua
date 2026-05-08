@@ -4,6 +4,6 @@ return {
     ---@module "ibl"
     ---@type ibl.config
     opts = {
-        scope = { enabled = true },
+        scope = { enabled = false },
     },
 }
