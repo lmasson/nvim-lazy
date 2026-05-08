@@ -4,3 +4,4 @@ else
     -- ordinary Neovim
     require("config.lazy")
 end
+
