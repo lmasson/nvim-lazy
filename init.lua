@@ -3,6 +3,6 @@ if vim.g.vscode then
 else
     -- ordinary Neovim
     require("config.lazy")
-    require("keymaps")
+    require("config.keymaps")
 end
 
