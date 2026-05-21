@@ -56,6 +56,20 @@ return {
                     vim.g.zig_fmt_autosave = 0
 
                 end,
+
+                ["basedpyright"] = function()
+                    lspconfig["basedpyright"].setup({
+                        capabilities = capabilities,
+                        settings = {
+                            basedpyright = {
+                                analysis = {
+                                    typeCheckingMode = "basic",
+                                },
+                            },
+                        },
+                    })
+                end,
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
 
@@ -113,7 +127,7 @@ return {
             sources = cmp.config.sources({
                 { name = "copilot", group_index = 2 },
                 { name = 'nvim_lsp' },
-                { name = 'luasnip' }, -- F[118;1:3uor luasnip users.
+                { name = 'luasnip' }, -- For luasnip users.
             }, {
                 { name = 'buffer' },
             })
