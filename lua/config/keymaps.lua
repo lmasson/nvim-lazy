@@ -20,13 +20,36 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 
 -- Tab control
-vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { desc = 'New tab' })
-vim.keymap.set('n', '<leader>tl', ':tabnext<CR>', { desc = 'Next tab' })
-vim.keymap.set('n', '<leader>th', ':tabprevious<CR>', { desc = 'Previous tab' })
-vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { desc = 'Close tab' })
+vim.keymap.set('n', '<S-t>', ':tabnew<CR>', { desc = 'New tab' })
+vim.keymap.set('n', '<C-t>', ':tabclose<CR>', { desc = 'Close tab' })
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Next tab' })
+vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Previous tab' })
+
+-- Highlight
+vim.keymap.set('n', '<Esc>', ':noh<CR>', { desc = 'No highlight' })
+
+-----------------
+-- LSP
+-----------------
 
 -- Formatting
 vim.keymap.set("n", "<leader>fo", function() vim.lsp.buf.format() end)
+
+-- Hover description (redefinition)
+vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = 'Hover' })
+
+-- Signature help
+vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, {}, { desc = "Signature help" }, { has = "signatureHelp" })
+
+-- Other keymaps to investigate
+-- { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
+-- { "<c-k>", function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
+-- { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" }, has = "codeAction" },
+-- { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "x" }, has = "codeLens" },
+-- { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+-- { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File", mode ={"n"}, has = { "workspace/didRenameFiles", "workspace/willRenameFiles" } },
+-- { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" },
+-- { "<leader>cA", LazyVim.lsp.action.source, desc = "Source Action", has = "codeAction" },
 
 -----------------
 -- Telescope

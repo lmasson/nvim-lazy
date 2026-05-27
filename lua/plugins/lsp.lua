@@ -31,6 +31,7 @@ return {
             require("mason").setup()
             require("mason-lspconfig").setup({
                 ensure_installed = {
+                    "basedpyright",
                     "lua_ls",
                     "rust_analyzer",
                     "ruff"
@@ -71,6 +72,19 @@ return {
                                 }
                             }
                         }
+                    end,
+
+                    ["basedpyright"] = function()
+                        lspconfig["basedpyright"].setup({
+                            capabilities = capabilities,
+                            settings = {
+                                basedpyright = {
+                                    analysis = {
+                                        typeCheckingMode = "basic",
+                                    },
+                                },
+                            },
+                        })
                     end,
 
                     ["ruff"] = function()
