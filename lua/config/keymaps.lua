@@ -18,12 +18,11 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-
--- Tab control
-vim.keymap.set('n', '<S-t>', ':tabnew<CR>', { desc = 'New tab' })
-vim.keymap.set('n', '<C-t>', ':tabclose<CR>', { desc = 'Close tab' })
-vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Next tab' })
-vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Previous tab' })
+-- Tab control (default: `leader>tn/tc/th/tl`)
+--vim.keymap.set('n', '<S-t>', ':tabnew<CR>', { desc = 'New tab' })
+--vim.keymap.set('n', '<C-t>', ':tabclose<CR>', { desc = 'Close tab' })
+--vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Next tab' })
+--vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Previous tab' })
 
 -- Highlight
 vim.keymap.set('n', '<Esc>', ':noh<CR>', { desc = 'No highlight' })
@@ -39,7 +38,8 @@ vim.keymap.set("n", "<leader>fo", function() vim.lsp.buf.format() end)
 vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = 'Hover' })
 
 -- Signature help
-vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, {}, { desc = "Signature help" }, { has = "signatureHelp" })
+vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, {}, { desc = "Signature help" },
+    { has = "signatureHelp" })
 
 -- Other keymaps to investigate
 -- { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
@@ -89,7 +89,6 @@ vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
 -- Cellular automaton
 -----------------
 
-local cellular_automaton = require("cellular-automaton")
 vim.keymap.set("n", "<leader>mir", function()
     vim.cmd("CellularAutomaton make_it_rain")
 end, { desc = "Make it rain" })
@@ -143,4 +142,3 @@ local cellular_automaton = require("cellular-automaton")
 vim.keymap.set("n", "<leader>mir", function()
     vim.cmd("CellularAutomaton make_it_rain")
 end, { desc = "Make it rain" })
-
