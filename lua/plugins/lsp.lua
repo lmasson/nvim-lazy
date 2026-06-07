@@ -1,5 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
+
     dependencies = {
         "stevearc/conform.nvim",
         "williamboman/mason.nvim",
@@ -27,132 +28,131 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
 
-            require("fidget").setup({})
-            require("mason").setup()
-            require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "basedpyright",
-                    "lua_ls",
-                    "rust_analyzer",
-                    "ruff"
-                },
-                handlers = {
-                    function(server_name) -- default handler (optional)
-                        require("lspconfig")[server_name].setup {
-                            capabilities = capabilities
-                        }
-                    end,
+        require("fidget").setup({})
+        require("mason").setup()
+        require("mason-lspconfig").setup({
+            ensure_installed = {
+                "basedpyright",
+                "lua_ls",
+                "rust_analyzer",
+                "ruff"
+            },
+            handlers = {
+                function(server_name) -- default handler (optional)
+                    require("lspconfig")[server_name].setup {
+                        capabilities = capabilities
+                    }
+                end,
 
-                    ["lua_ls"] = function()
-                        local lspconfig = require("lspconfig")
+                ["lua_ls"] = function()
+                    local lspconfig = require("lspconfig")
 
-                        lspconfig.lua_ls.setup {
-                            capabilities = capabilities,
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = 'LuaJIT',
-                                    },
-                                    diagnostics = {
-                                        globals = { 'vim' },
-                                    },
-                                    workspace = {
-                                        library = vim.api.nvim_get_runtime_file("", true),
-                                        checkThirdParty = false,
-                                    },
-                                    format = {
-                                        enable = true,
-                                        -- Put format options here
-                                        -- NOTE: the value should be STRING!!
-                                        defaultConfig = {
-                                            indent_style = "space",
-                                            indent_size = "2",
-                                        }
-                                    },
-                                }
+                    lspconfig.lua_ls.setup {
+                        capabilities = capabilities,
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    version = 'LuaJIT',
+                                },
+                                diagnostics = {
+                                    globals = { 'vim' },
+                                },
+                                workspace = {
+                                    library = vim.api.nvim_get_runtime_file("", true),
+                                    checkThirdParty = false,
+                                },
+                                format = {
+                                    enable = true,
+                                    -- Put format options here
+                                    -- NOTE: the value should be STRING!!
+                                    defaultConfig = {
+                                        indent_style = "space",
+                                        indent_size = "2",
+                                    }
+                                },
                             }
                         }
-                    end,
+                    }
+                end,
 
-                    ["basedpyright"] = function()
-                        lspconfig["basedpyright"].setup({
-                            capabilities = capabilities,
-                            settings = {
-                                basedpyright = {
-                                    analysis = {
-                                        typeCheckingMode = "basic",
-                                    },
+                ["basedpyright"] = function()
+                    lspconfig["basedpyright"].setup({
+                        capabilities = capabilities,
+                        settings = {
+                            basedpyright = {
+                                analysis = {
+                                    typeCheckingMode = "basic",
                                 },
                             },
-                        })
-                    end,
+                        },
+                    })
+                end,
 
-                    ["ruff"] = function()
-                        local lspconfig = require("lspconfig")
+                ["ruff"] = function()
+                    local lspconfig = require("lspconfig")
 
-                        lspconfig.ruff.setup({
-                            capabilities = capabilities,
-                            settings = {
-                                ruff = {
-                                    lineLength = 120,
+                    lspconfig.ruff.setup({
+                        capabilities = capabilities,
+                        settings = {
+                            ruff = {
+                                lineLength = 120,
 
-                                    -- Enable Ruff features
-                                    lint = {
-                                        enable = true,
-                                    },
-                                    format = {
-                                        enable = true,
-                                    },
+                                -- Enable Ruff features
+                                lint = {
+                                    enable = true,
+                                },
+                                format = {
+                                    enable = true,
+                                },
 
-                                    -- Import sorting
-                                    organizeImports = true,
+                                -- Import sorting
+                                organizeImports = true,
 
-                                    -- Optional rule tuning
-                                    lint = {
-                                        select = { "E", "F", "I", "B", "UP" },
-                                        ignore = { "E501" }, -- ignore line length if desired
-                                    },
+                                -- Optional rule tuning
+                                lint = {
+                                    select = { "E", "F", "I", "B", "UP" },
+                                    ignore = { "E501" }, -- ignore line length if desired
                                 },
                             },
-                        })
-                    end,
-                }
+                        },
+                    })
+                end,
+            }
+        })
+
+        local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+        cmp.setup({
+            snippet = {
+                expand = function(args)
+                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                end,
+            },
+            mapping = cmp.mapping.preset.insert({
+                ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+                ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ["<C-Space>"] = cmp.mapping.complete(),
+            }),
+            sources = cmp.config.sources({
+                { name = "copilot", group_index = 2 },
+                { name = 'nvim_lsp' },
+                { name = 'luasnip' }, -- For luasnip users.
+                --}, {
+                { name = 'buffer' },
             })
+        })
 
-            local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-                    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                }),
-                sources = cmp.config.sources({
-                    { name = "copilot", group_index = 2 },
-                    { name = 'nvim_lsp' },
-                    { name = 'luasnip' }, -- For luasnip users.
-                }, {
-                    { name = 'buffer' },
-                })
-            })
-
-            vim.diagnostic.config({
-                -- update_in_insert = true,
-                float = {
-                    focusable = false,
-                    style = "minimal",
-                    border = "rounded",
-                    source = "always",
-                    header = "",
-                    prefix = "",
-                },
-            })
-        end
-    }
-
+        vim.diagnostic.config({
+            update_in_insert = true,
+            float = {
+                focusable = false,
+                style = "minimal",
+                border = "rounded",
+                source = "always",
+                header = "",
+                prefix = "",
+            },
+        })
+    end
+}
