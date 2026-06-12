@@ -22,6 +22,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.opt.clipboard:append { 'unnamedplus' }
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
