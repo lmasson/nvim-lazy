@@ -41,6 +41,11 @@ vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = 'Hover' })
 vim.keymap.set("n", "gK", function() vim.lsp.buf.signature_help() end, {}, { desc = "Signature help" },
     { has = "signatureHelp" })
 
+-- Code Action
+vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code Action" },
+    { has = "codeAction" })
+-- { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "x" }, has = "codeAction" },
+
 -- Other keymaps to investigate
 -- { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
 -- { "<c-k>", function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
